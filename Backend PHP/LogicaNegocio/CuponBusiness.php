@@ -1,7 +1,7 @@
 <?php
 
-require_once 'AccesoDatos/CuponData.php';
-require_once 'Dominio/Cupon.php';
+require_once __DIR__ . '/../AccesoDatos/CuponData.php';
+require_once __DIR__ . '/../Dominio/Cupon.php';
 
 class CuponBusiness {
     private $cuponData;
