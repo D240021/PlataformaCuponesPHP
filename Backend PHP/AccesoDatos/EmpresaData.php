@@ -13,7 +13,6 @@ class EmpresaData {
         $sql = "INSERT INTO empresa (nombre, direccion, cedula, fecha_creacion, correo, telefono) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$empresa->nombre, $empresa->direccion, $empresa->cedula, $empresa->fecha_creacion, $empresa->correo, $empresa->telefono]);
-        echo "Empresa creada exitosamente\n";
     }
 
     public function obtenerEmpresaID($id) {
@@ -35,14 +34,12 @@ class EmpresaData {
         $sql = "UPDATE empresa SET nombre = ?, direccion = ?, cedula = ?, fecha_creacion = ?, correo = ?, telefono = ? WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$empresa->nombre, $empresa->direccion, $empresa->cedula, $empresa->fecha_creacion, $empresa->correo, $empresa->telefono, $empresa->id]);
-        echo "Empresa actualizada exitosamente\n";
     }
 
     public function eliminarEmpresa($id) {
         $sql = "DELETE FROM empresa WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$id]);
-        echo "Empresa eliminada exitosamente\n";
     }
 }
 

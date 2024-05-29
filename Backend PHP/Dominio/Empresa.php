@@ -19,3 +19,5 @@ class Empresa {
         $this->telefono = $telefono;
     }
 }
+
+?>
