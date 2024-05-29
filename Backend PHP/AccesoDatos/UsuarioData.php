@@ -24,8 +24,8 @@ class UsuarioData {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function obtenerUsuarios($id) {
-        $sql = "SELECT * FROM usuario WHERE id = ?";
+    public function obtenerUsuarios() {
+        $sql = "SELECT * FROM usuario";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
