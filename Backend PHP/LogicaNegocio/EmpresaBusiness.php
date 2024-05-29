@@ -42,7 +42,6 @@ class EmpresaBusiness {
             throw new Exception("Todos los campos son obligatorios");
         }
 
-        // Llamada al método actualizarEmpresa de EmpresaData
         $this->empresaData->actualizarEmpresa($empresa);
     }
 
