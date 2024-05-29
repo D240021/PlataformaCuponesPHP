@@ -1,9 +1,18 @@
 <?php
 
-require_once 'LogicaNegocio/CuponBusiness.php';
-require_once 'Dominio/Cupon.php';
-
+// Encabezados CORS
 header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+
+// Manejo de solicitudes OPTIONS
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+require_once __DIR__ . '/../LogicaNegocio/CuponBusiness.php';
+require_once __DIR__ . '/../Dominio/Cupon.php';
+
 header('Content-Type: application/json');
 
 $cuponBusiness = new CuponBusiness();
