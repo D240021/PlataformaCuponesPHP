@@ -1,63 +1,51 @@
 <?php
 
-require_once 'LogicaNegocio/EmpresaBusiness.php';
-require_once 'Dominio/Empresa.php';
+require_once 'LogicaNegocio/UsuarioBusiness.php';
+require_once 'Dominio/Usuario.php';
 
-// Crear una instancia de EmpresaBusiness
-$empresaBusiness = new EmpresaBusiness();
+// Crear una instancia de UsuarioBusiness
+$usuarioBusiness = new UsuarioBusiness();
 
-// Crear una nueva empresa para la prueba
-$empresa = new Empresa(null, "Empresa de Prueba", "Calle de Prueba 123", "123456789", "2024-01-01", "prueba@empresa.com", "555-5555");
+// Crear un nuevo usuario para la prueba
+$usuario = new Usuario(null, "Juan", "Perez", "123456789", "1990-01-01", "juan.perez@example.com", "contrasena123");
 
 try {
-    // Prueba de creación de empresa
-    echo "Creando empresa...\n";
-    $empresaBusiness->crearEmpresa($empresa);
+    // Prueba de creación de usuario
+    echo "Creando usuario...\n";
+    $usuarioBusiness->crearUsuario($usuario);
 
-    // Prueba de obtención de todas las empresas
-    echo "Obteniendo todas las empresas...\n";
-    $empresas = $empresaBusiness->obtenerEmpresas();
-    print_r($empresas);
+    // Prueba de obtención de todos los usuarios
+    echo "Obteniendo todos los usuarios...\n";
+    $usuarios = $usuarioBusiness->obtenerUsuarios();
+    print_r($usuarios);
 
-    // Prueba de obtención de una empresa por ID
-    $empresaCreada = end($empresas); // Asumimos que la empresa creada es la última en la lista
-    $idEmpresaCreada = $empresaCreada['id'];
-    echo "Obteniendo empresa con ID: $idEmpresaCreada...\n";
-    $empresaObtenida = $empresaBusiness->obtenerEmpresa($idEmpresaCreada);
-    print_r($empresaObtenida);
+    // Prueba de obtención de un usuario por ID
+    $usuarioCreado = end($usuarios); // Asumimos que el usuario creado es el último en la lista
+    $idUsuarioCreado = $usuarioCreado['id'];
+    echo "Obteniendo usuario con ID: $idUsuarioCreado...\n";
+    $usuarioObtenido = $usuarioBusiness->obtenerUsuario($idUsuarioCreado);
+    print_r($usuarioObtenido);
 
-    // Prueba de actualización de empresa
-    echo "Actualizando empresa con ID: $idEmpresaCreada...\n";
-    $empresaObtenida['nombre'] = "Empresa de Prueba Actualizada";
-    $empresaActualizada = new Empresa(
-        $empresaObtenida['id'],
-        $empresaObtenida['nombre'],
-        $empresaObtenida['direccion'],
-        $empresaObtenida['cedula'],
-        $empresaObtenida['fecha_creacion'],
-        $empresaObtenida['correo'],
-        $empresaObtenida['telefono']
+    // Prueba de actualización de usuario
+    echo "Actualizando usuario con ID: $idUsuarioCreado...\n";
+    $usuarioObtenido['nombre'] = "Juan Actualizado";
+    $usuarioActualizado = new Usuario(
+        $usuarioObtenido['id'],
+        $usuarioObtenido['nombre'],
+        $usuarioObtenido['apellidos'],
+        $usuarioObtenido['cedula'],
+        $usuarioObtenido['fecha_nacimiento'],
+        $usuarioObtenido['correo'],
+        $usuarioObtenido['contrasena']
     );
-    $empresaBusiness->actualizarEmpresa($empresaActualizada);
+    $usuarioBusiness->actualizarUsuario($usuarioActualizado);
 
     // Verificar la actualización
-    $empresaObtenidaActualizada = $empresaBusiness->obtenerEmpresa($idEmpresaCreada);
-    echo "Empresa actualizada:\n";
-    print_r($empresaObtenidaActualizada);
+    $usuarioObtenidoActualizado = $usuarioBusiness->obtenerUsuario($idUsuarioCreado);
+    echo "Usuario actualizado:\n";
+    print_r($usuarioObtenidoActualizado);
 
-    // Prueba de eliminación de empresa
-    echo "Eliminando empresa con ID: $idEmpresaCreada...\n";
-    $empresaBusiness->eliminarEmpresa($idEmpresaCreada);
 
-    // Verificar la eliminación
-    try {
-        $empresaObtenida = $empresaBusiness->obtenerEmpresa($idEmpresaCreada);
-        if ($empresaObtenida) {
-            echo "Error: La empresa no fue eliminada correctamente\n";
-        }
-    } catch (Exception $e) {
-        echo "Empresa eliminada correctamente\n";
-    }
 
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
