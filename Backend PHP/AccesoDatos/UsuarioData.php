@@ -1,7 +1,7 @@
 <?php
 
-require_once 'Conexion/Conexion.php';
-require_once 'Dominio/Usuario.php';
+require_once __DIR__ . '/../Conexion/Conexion.php';
+require_once __DIR__ . '/../Dominio/Usuario.php';
 
 class UsuarioData {
     private $conexion;

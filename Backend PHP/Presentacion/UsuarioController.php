@@ -1,7 +1,7 @@
 <?php
 
-require_once 'LogicaNegocio/UsuarioBusiness.php';
-require_once 'Dominio/Usuario.php';
+require_once __DIR__ . '/../LogicaNegocio/UsuarioBusiness.php';
+require_once __DIR__ . '/../Dominio/Usuario.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');

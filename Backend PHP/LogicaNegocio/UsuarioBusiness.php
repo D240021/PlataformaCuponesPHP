@@ -1,7 +1,7 @@
 <?php
 
-require_once 'AccesoDatos/UsuarioData.php';
-require_once 'Dominio/Usuario.php';
+require_once __DIR__ . '/../AccesoDatos/UsuarioData.php';
+require_once __DIR__ . '/../Dominio/Usuario.php';
 
 class UsuarioBusiness {
     private $usuarioData;

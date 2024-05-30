@@ -14,7 +14,6 @@ class ConexionBD {
             $this->conexion = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
             // Establecer el modo de error de PDO a excepción
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Conexión exitosa :)\n";
         } catch(PDOException $e) {
             echo "Error de conexión: " . $e->getMessage();
         }
