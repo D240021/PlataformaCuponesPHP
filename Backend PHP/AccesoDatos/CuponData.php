@@ -9,7 +9,7 @@ class CuponData {
     }
 
     public function crearCupon($cupon) {
-        $sql = "INSERT INTO cupon (codigo, nombre, precio, empresa_id, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO cupon (codigo, nombre, precio, empresa_id, estado, imagen, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->imagen, $cupon->tipo]);
     }
