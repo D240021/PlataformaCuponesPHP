@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Conexion/Conexion.php';
+require_once __DIR__ . '/../Conexion/Conexion.php';
 
 class EmpresaData {
     private $conexion;
