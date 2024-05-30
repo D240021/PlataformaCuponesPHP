@@ -1,7 +1,7 @@
 <?php
 
-require_once 'AccesoDatos/EmpresaData.php';
-require_once 'Dominio/Empresa.php';
+require_once __DIR__ . '/../AccesoDatos/EmpresaData.php';
+require_once __DIR__ . '/../Dominio/Empresa.php';
 
 class EmpresaBusiness {
     private $empresaData;
