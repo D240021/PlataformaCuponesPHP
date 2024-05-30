@@ -9,9 +9,9 @@ class CuponData {
     }
 
     public function crearCupon($cupon) {
-        $sql = "INSERT INTO cupon (codigo, nombre, precio, empresa_id, estado) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO cupon (codigo, nombre, precio, empresa_id, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado]);
+        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->imagen, $cupon->tipo]);
     }
 
     public function obtenerCuponID($id) {
@@ -30,9 +30,9 @@ class CuponData {
     
 
     public function actualizarCupon($cupon) {
-        $sql = "UPDATE cupon SET codigo = ?, nombre = ?, precio = ?, empresa_id = ?, estado = ? WHERE id = ?";
+        $sql = "UPDATE cupon SET codigo = ?, nombre = ?, precio = ?, empresa_id = ?, estado = ?, imagen = ?, tipo = ? WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->id]);
+        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->id, $cupon->imagen, $cupon->tipo]);
     }
 
     public function eliminarCupon($id) {
