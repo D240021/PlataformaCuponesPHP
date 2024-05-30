@@ -56,13 +56,15 @@ if ($method == 'POST') {
                     $input['nombre'],
                     $input['precio'],
                     $input['empresa_id'],
-                    $input['estado']
+                    $input['estado'],
+                    $input['imagen'],
+                    $input['tipo']
+                    
                 );
                 
                 try {
                     $cuponBusiness->crearCupon($cupon);
                     header("HTTP/1.1 201 Created");
-                    echo json_encode(["mensaje" => "Cupon creado exitosamente", "cupon" => $cupon]);
                 } catch (Exception $e) {
                     header("HTTP/1.1 400 Bad Request");
                     echo json_encode(["error" => $e->getMessage()]);
@@ -78,13 +80,14 @@ if ($method == 'POST') {
                     $input['nombre'],
                     $input['precio'],
                     $input['empresa_id'],
-                    $input['estado']
+                    $input['estado'],
+                    $input['imagen'],
+                    $input['tipo']
                 );
                 
                 try {
                     $cuponBusiness->actualizarCupon($cupon);
                     header("HTTP/1.1 200 OK");
-                    echo json_encode(["mensaje" => "Cupon actualizado exitosamente"]);
                 } catch (Exception $e) {
                     header("HTTP/1.1 400 Bad Request");
                     echo json_encode(["error" => $e->getMessage()]);
@@ -98,7 +101,6 @@ if ($method == 'POST') {
                 try {
                     $cuponBusiness->eliminarCupon($id);
                     header("HTTP/1.1 200 OK");
-                    echo json_encode(["mensaje" => "Cupon eliminado exitosamente"]);
                 } catch (Exception $e) {
                     header("HTTP/1.1 400 Bad Request");
                     echo json_encode(["error" => $e->getMessage()]);
