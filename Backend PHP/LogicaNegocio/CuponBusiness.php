@@ -12,7 +12,7 @@ class CuponBusiness {
 
     public function crearCupon($cupon) {
         // Validaciones
-        if (empty($cupon->codigo) || empty($cupon->nombre) || empty($cupon->precio) || empty($cupon->empresa_id) || empty($cupon->estado) || empty($cupon->imagen) || empty($cupon->tipo) || empty($cupon->categoria_id) || empty($cupon->fecha_inicio) || empty($cupon->fecha_vencimiento) || empty($cupon->fecha_creacion)) {
+        if (empty($cupon->codigo) || empty($cupon->nombre) || empty($cupon->precio) || empty($cupon->empresa_id) || empty($cupon->estado) || empty($cupon->imagen) || empty($cupon->categoria_id) || empty($cupon->fecha_inicio) || empty($cupon->fecha_vencimiento) || empty($cupon->fecha_creacion)) {
             throw new Exception("Todos los campos son obligatorios");
         }
 
@@ -41,7 +41,7 @@ class CuponBusiness {
             throw new Exception("ID de cupón inválido");
         }
 
-        if (empty($cupon->codigo) || empty($cupon->nombre) || empty($cupon->precio) || empty($cupon->empresa_id) || empty($cupon->estado) || empty($cupon->imagen) || empty($cupon->tipo) || empty($cupon->categoria_id) || empty($cupon->fecha_inicio) || empty($cupon->fecha_vencimiento) || empty($cupon->fecha_creacion)) {
+        if (empty($cupon->codigo) || empty($cupon->nombre) || empty($cupon->precio) || empty($cupon->empresa_id) || empty($cupon->estado) || empty($cupon->imagen) || empty($cupon->categoria_id) || empty($cupon->fecha_inicio) || empty($cupon->fecha_vencimiento) || empty($cupon->fecha_creacion)) {
             throw new Exception("Todos los campos son obligatorios");
         }
 
