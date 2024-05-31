@@ -1,19 +1,12 @@
 <?php
 
-// Encabezados CORS
+require_once __DIR__ . '/../LogicaNegocio/CategoriaBusiness.php';
+require_once __DIR__ . '/../Dominio/Categoria.php';
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// Manejo de solicitudes OPTIONS
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-require_once __DIR__ . '/../LogicaNegocio/CuponBusiness.php';
-require_once __DIR__ . '/../Dominio/Cupon.php';
-
-$cuponBusiness = new CuponBusiness();
+$categoriaBusiness = new CategoriaBusiness();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -21,27 +14,18 @@ if ($method == 'GET') {
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
         try {
-            $cupon = $cuponBusiness->obtenerCupon($id);
+            $categoria = $categoriaBusiness->obtenerCategoria($id);
             header("HTTP/1.1 200 OK");
-            echo json_encode($cupon);
-        } catch (Exception $e) {
-            header("HTTP/1.1 400 Bad Request");
-            echo json_encode(["error" => $e->getMessage()]);
-        }
-    } else if (isset($_GET['no_vencidos'])) {
-        try {
-            $cupones = $cuponBusiness->obtenerCuponesNoVencidos();
-            header("HTTP/1.1 200 OK");
-            echo json_encode($cupones);
+            echo json_encode($categoria);
         } catch (Exception $e) {
             header("HTTP/1.1 400 Bad Request");
             echo json_encode(["error" => $e->getMessage()]);
         }
     } else {
         try {
-            $cupones = $cuponBusiness->obtenerCupones();
+            $categorias = $categoriaBusiness->obtenerCategorias();
             header("HTTP/1.1 200 OK");
-            echo json_encode($cupones);
+            echo json_encode($categorias);
         } catch (Exception $e) {
             header("HTTP/1.1 400 Bad Request");
             echo json_encode(["error" => $e->getMessage()]);
@@ -57,23 +41,10 @@ if ($method == 'POST') {
         switch ($input['METHOD']) {
             case 'POST':
                 unset($input['METHOD']);
-                $cupon = new Cupon(
-                    null,
-                    $input['codigo'],
-                    $input['nombre'],
-                    $input['precio'],
-                    $input['empresa_id'],
-                    $input['estado'],
-                    $input['imagen'],
-                    $input['tipo'],
-                    $input['categoria_id'],
-                    $input['fecha_inicio'],
-                    $input['fecha_vencimiento'],
-                    $input['fecha_creacion']
-                );
+                $categoria = new Categoria(null, $input['nombre']);
                 
                 try {
-                    $cuponBusiness->crearCupon($cupon);
+                    $categoriaBusiness->crearCategoria($categoria);
                     header("HTTP/1.1 201 Created");
                 } catch (Exception $e) {
                     header("HTTP/1.1 400 Bad Request");
@@ -84,23 +55,10 @@ if ($method == 'POST') {
             case 'PUT':
                 unset($input['METHOD']);
                 $id = $_GET['id'];
-                $cupon = new Cupon(
-                    $id,
-                    $input['codigo'],
-                    $input['nombre'],
-                    $input['precio'],
-                    $input['empresa_id'],
-                    $input['estado'],
-                    $input['imagen'],
-                    $input['tipo'],
-                    $input['categoria_id'],
-                    $input['fecha_inicio'],
-                    $input['fecha_vencimiento'],
-                    $input['fecha_creacion']
-                );
+                $categoria = new Categoria($id, $input['nombre']);
                 
                 try {
-                    $cuponBusiness->actualizarCupon($cupon);
+                    $categoriaBusiness->actualizarCategoria($categoria);
                     header("HTTP/1.1 200 OK");
                 } catch (Exception $e) {
                     header("HTTP/1.1 400 Bad Request");
@@ -113,7 +71,7 @@ if ($method == 'POST') {
                 $id = $_GET['id'];
                 
                 try {
-                    $cuponBusiness->eliminarCupon($id);
+                    $categoriaBusiness->eliminarCategoria($id);
                     header("HTTP/1.1 200 OK");
                 } catch (Exception $e) {
                     header("HTTP/1.1 400 Bad Request");

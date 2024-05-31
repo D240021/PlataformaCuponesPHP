@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../Conexion/Conexion.php';
+
 class CuponData {
     private $conexion;
 
@@ -9,9 +10,9 @@ class CuponData {
     }
 
     public function crearCupon($cupon) {
-        $sql = "INSERT INTO cupon (codigo, nombre, precio, empresa_id, estado, imagen, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO cupon (codigo, nombre, precio, empresa_id, estado, imagen, tipo, categoria_id, fecha_inicio, fecha_vencimiento, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->imagen, $cupon->tipo]);
+        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->imagen, $cupon->tipo, $cupon->categoria_id, $cupon->fecha_inicio, $cupon->fecha_vencimiento, $cupon->fecha_creacion]);
     }
 
     public function obtenerCuponID($id) {
@@ -25,14 +26,20 @@ class CuponData {
         $sql = "SELECT * FROM cupon";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
+    public function obtenerCuponesNoVencidos() {
+        $sql = "SELECT * FROM cupon WHERE fecha_vencimiento >= CURDATE()";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function actualizarCupon($cupon) {
-        $sql = "UPDATE cupon SET codigo = ?, nombre = ?, precio = ?, empresa_id = ?, estado = ?, imagen = ?, tipo = ? WHERE id = ?";
+        $sql = "UPDATE cupon SET codigo = ?, nombre = ?, precio = ?, empresa_id = ?, estado = ?, imagen = ?, tipo = ?, categoria_id = ?, fecha_inicio = ?, fecha_vencimiento = ?, fecha_creacion = ? WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->id, $cupon->imagen, $cupon->tipo]);
+        $stmt->execute([$cupon->codigo, $cupon->nombre, $cupon->precio, $cupon->empresa_id, $cupon->estado, $cupon->imagen, $cupon->tipo, $cupon->categoria_id, $cupon->fecha_inicio, $cupon->fecha_vencimiento, $cupon->fecha_creacion, $cupon->id]);
     }
 
     public function eliminarCupon($id) {

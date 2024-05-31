@@ -11,12 +11,11 @@ class EmpresaBusiness {
     }
 
     public function crearEmpresa($empresa) {
-        // Validaciones
-        if (empty($empresa->nombre) || empty($empresa->direccion) || empty($empresa->cedula) || empty($empresa->fecha_creacion) || empty($empresa->correo) || empty($empresa->telefono)) {
+
+        if (empty($empresa->nombre) || empty($empresa->direccion) || empty($empresa->cedula) || empty($empresa->fecha_creacion) || empty($empresa->correo) || empty($empresa->telefono) || empty($empresa->imagen) || empty($empresa->contrasenna)) {
             throw new Exception("Todos los campos son obligatorios");
         }
 
-        // Llamada al método crearEmpresa de EmpresaData
         $this->empresaData->crearEmpresa($empresa);
     }
 
@@ -38,11 +37,24 @@ class EmpresaBusiness {
             throw new Exception("ID de empresa inválido");
         }
 
-        if (empty($empresa->nombre) || empty($empresa->direccion) || empty($empresa->cedula) || empty($empresa->fecha_creacion) || empty($empresa->correo) || empty($empresa->telefono)) {
+        if (empty($empresa->nombre) || empty($empresa->direccion) || empty($empresa->cedula) || empty($empresa->fecha_creacion) || empty($empresa->correo) || empty($empresa->telefono) || empty($empresa->imagen) || empty($empresa->contrasenna)) {
             throw new Exception("Todos los campos son obligatorios");
         }
 
         $this->empresaData->actualizarEmpresa($empresa);
+    }
+
+    public function actualizarContrasennaEmpresa($id, $contrasenna) {
+
+        if (empty($id) || !is_numeric($id)) {
+            throw new Exception("ID de empresa inválido");
+        }
+
+        if (empty($contrasenna)) {
+            throw new Exception("La contraseña no debe estar vacía");
+        }
+
+        $this->empresaData->actualizarContrasennaEmpresa($id, $contrasenna);
     }
 
     public function eliminarEmpresa($id) {
