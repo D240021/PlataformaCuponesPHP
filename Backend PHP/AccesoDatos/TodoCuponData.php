@@ -13,10 +13,12 @@ class TodoCuponData {
         $sql = "SELECT 
                     cupon.id as cupon_id, cupon.codigo, cupon.nombre as cupon_nombre, cupon.precio, cupon.estado, cupon.imagen as cupon_imagen, cupon.categoria_id, cupon.fecha_inicio, cupon.fecha_vencimiento, cupon.fecha_creacion,
                     empresa.id as empresa_id, empresa.nombre as empresa_nombre, empresa.direccion, empresa.cedula as empresa_cedula, empresa.fecha_creacion as empresa_fecha_creacion, empresa.correo as empresa_correo, empresa.telefono as empresa_telefono, empresa.imagen as empresa_imagen, empresa.isHabilitado,
-                    promocion.id as promocion_id, promocion.descripcion as promocion_descripcion, promocion.fecha_inicio as promocion_fecha_inicio, promocion.fecha_vencimiento as promocion_fecha_vencimiento, promocion.descuento as promocion_descuento
+                    promocion.id as promocion_id, promocion.descripcion as promocion_descripcion, promocion.fecha_inicio as promocion_fecha_inicio, promocion.fecha_vencimiento as promocion_fecha_vencimiento, promocion.descuento as promocion_descuento,
+                    categoria.id as categoria_id, categoria.nombre as categoria_nombre
                 FROM cupon 
                 LEFT JOIN empresa ON cupon.empresa_id = empresa.id
-                LEFT JOIN promocion ON cupon.id = promocion.cupon_id";
+                LEFT JOIN promocion ON cupon.id = promocion.cupon_id
+                LEFT JOIN categoria ON cupon.categoria_id = categoria.id";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,10 +29,12 @@ class TodoCuponData {
         $sql = "SELECT 
                     cupon.id as cupon_id, cupon.codigo, cupon.nombre as cupon_nombre, cupon.precio, cupon.estado, cupon.imagen as cupon_imagen, cupon.categoria_id, cupon.fecha_inicio, cupon.fecha_vencimiento, cupon.fecha_creacion,
                     empresa.id as empresa_id, empresa.nombre as empresa_nombre, empresa.direccion, empresa.cedula as empresa_cedula, empresa.fecha_creacion as empresa_fecha_creacion, empresa.correo as empresa_correo, empresa.telefono as empresa_telefono, empresa.imagen as empresa_imagen, empresa.isHabilitado,
-                    promocion.id as promocion_id, promocion.descripcion as promocion_descripcion, promocion.fecha_inicio as promocion_fecha_inicio, promocion.fecha_vencimiento as promocion_fecha_vencimiento, promocion.descuento as promocion_descuento
+                    promocion.id as promocion_id, promocion.descripcion as promocion_descripcion, promocion.fecha_inicio as promocion_fecha_inicio, promocion.fecha_vencimiento as promocion_fecha_vencimiento, promocion.descuento as promocion_descuento,
+                    categoria.id as categoria_id, categoria.nombre as categoria_nombre
                 FROM cupon 
                 LEFT JOIN empresa ON cupon.empresa_id = empresa.id
                 LEFT JOIN promocion ON cupon.id = promocion.cupon_id
+                LEFT JOIN categoria ON cupon.categoria_id = categoria.id
                 WHERE cupon.id = ?";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$id]);
@@ -50,7 +54,10 @@ class TodoCuponData {
                     'precio' => $row['precio'],
                     'estado' => $row['estado'],
                     'imagen' => $row['cupon_imagen'],
-                    'categoria_id' => $row['categoria_id'],
+                    'categoria' => [
+                        'idCategoria' => $row['categoria_id'],
+                        'nombreCategoria' => $row['categoria_nombre']
+                    ],
                     'fecha_inicio' => $row['fecha_inicio'],
                     'fecha_vencimiento' => $row['fecha_vencimiento'],
                     'fecha_creacion' => $row['fecha_creacion'],
