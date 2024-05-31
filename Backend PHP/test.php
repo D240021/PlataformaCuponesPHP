@@ -1,23 +1,25 @@
 <?php
 
 require_once 'LogicaNegocio/TodoCuponBusiness.php';
-require_once 'Dominio/Cupon.php';
-require_once 'Dominio/Empresa.php';
-require_once 'Dominio/Promocion.php';
 
+// Crear una instancia de TodoCuponBusiness
 $todoCuponBusiness = new TodoCuponBusiness();
 
 try {
     // Prueba de obtención de todos los cupones
     echo "Obteniendo todos los cupones...\n";
     $cupones = $todoCuponBusiness->obtenerTodoCupones();
-
+    echo json_encode($cupones, JSON_PRETTY_PRINT);
     
     // Prueba de obtención de un cupón por ID
     echo "Obteniendo un cupón por ID...\n";
-    $cuponId = $cupones[0]['id']; // Asumiendo que el primer cupón en la lista es el que queremos obtener
-    $cuponArray = $todoCuponBusiness->obtenerTodoCuponID(10);
-    echo json_encode($cuponArray, JSON_PRETTY_PRINT);
+    if (!empty($cupones) && isset($cupones[0]['idCupon'])) {
+        $cuponId = $cupones[0]['idCupon'];
+        $cuponArray = $todoCuponBusiness->obtenerTodoCuponID($cuponId);
+        echo json_encode($cuponArray, JSON_PRETTY_PRINT);
+    } else {
+        echo "No se encontró ningún cupón para probar.\n";
+    }
 
 } catch (Exception $e) {
     echo json_encode(["error" => $e->getMessage()], JSON_PRETTY_PRINT);
