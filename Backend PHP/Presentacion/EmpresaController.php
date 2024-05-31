@@ -41,13 +41,8 @@ if ($method == 'POST') {
         switch ($input['METHOD']) {
             case 'POST':
                 unset($input['METHOD']);
-                $empresa = new Empresa();
-                $empresa->nombre = $input['nombre'];
-                $empresa->direccion = $input['direccion'];
-                $empresa->cedula = $input['cedula'];
-                $empresa->fecha_creacion = $input['fecha_creacion'];
-                $empresa->correo = $input['correo'];
-                $empresa->telefono = $input['telefono'];
+                $empresa = new Empresa(null, $input['nombre'], $input['direccion'], $input['cedula'], $input['fecha_creacion'], $input['correo'], $input['telefono'], $input['imagen'], $input['contrasenna']);
+                $empresa->isHabilitado = $input['isHabilitado'];
                 
                 try {
                     $empresaBusiness->crearEmpresa($empresa);
@@ -62,22 +57,38 @@ if ($method == 'POST') {
             case 'PUT':
                 unset($input['METHOD']);
                 $id = $_GET['id'];
-                $empresa = new Empresa();
-                $empresa->id = $id;
-                $empresa->nombre = $input['nombre'];
-                $empresa->direccion = $input['direccion'];
-                $empresa->cedula = $input['cedula'];
-                $empresa->fecha_creacion = $input['fecha_creacion'];
-                $empresa->correo = $input['correo'];
-                $empresa->telefono = $input['telefono'];
                 
-                try {
-                    $empresaBusiness->actualizarEmpresa($empresa);
-                    header("HTTP/1.1 200 OK");
-                    echo json_encode(["mensaje" => "Empresa actualizada exitosamente"]);
-                } catch (Exception $e) {
-                    header("HTTP/1.1 400 Bad Request");
-                    echo json_encode(["error" => $e->getMessage()]);
+                if (isset($input['contrasenna']) && count($input) == 2) { // Si solo se está actualizando la contraseña
+                    $contrasenna = $input['contrasenna'];
+                    try {
+                        $empresaBusiness->actualizarContrasennaEmpresa($id, $contrasenna);
+                        header("HTTP/1.1 200 OK");
+                        echo json_encode(["mensaje" => "Contraseña actualizada exitosamente"]);
+                    } catch (Exception $e) {
+                        header("HTTP/1.1 400 Bad Request");
+                        echo json_encode(["error" => $e->getMessage()]);
+                    }
+                } else { // Actualización de otros datos de la empresa
+                    $empresa = new Empresa();
+                    $empresa->id = $id;
+                    $empresa->nombre = $input['nombre'];
+                    $empresa->direccion = $input['direccion'];
+                    $empresa->cedula = $input['cedula'];
+                    $empresa->fecha_creacion = $input['fecha_creacion'];
+                    $empresa->correo = $input['correo'];
+                    $empresa->telefono = $input['telefono'];
+                    $empresa->imagen = $input['imagen'];
+                    $empresa->contrasenna = $input['contrasenna'];
+                    $empresa->isHabilitado = $input['isHabilitado'];
+                    
+                    try {
+                        $empresaBusiness->actualizarEmpresa($empresa);
+                        header("HTTP/1.1 200 OK");
+                        echo json_encode(["mensaje" => "Empresa actualizada exitosamente"]);
+                    } catch (Exception $e) {
+                        header("HTTP/1.1 400 Bad Request");
+                        echo json_encode(["error" => $e->getMessage()]);
+                    }
                 }
                 break;
 
