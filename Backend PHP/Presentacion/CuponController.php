@@ -37,6 +37,16 @@ if ($method == 'GET') {
             header("HTTP/1.1 400 Bad Request");
             echo json_encode(["error" => $e->getMessage()]);
         }
+    } else if (isset($_GET['empresa_id'])) {
+        $empresa_id = $_GET['empresa_id'];
+        try {
+            $cupones = $cuponBusiness->obtenerCuponesPorEmpresa($empresa_id);
+            header("HTTP/1.1 200 OK");
+            echo json_encode($cupones);
+        } catch (Exception $e) {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(["error" => $e->getMessage()]);
+        }
     } else {
         try {
             $cupones = $cuponBusiness->obtenerCupones();
