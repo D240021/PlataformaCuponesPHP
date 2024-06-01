@@ -31,6 +31,10 @@ class CuponBusiness {
         return $this->cuponData->obtenerCupones();
     }
 
+    public function obtenerCuponesPorEmpresa($empresa_id) {
+        return $this->cuponData->obtenerCuponesPorEmpresa($empresa_id);
+    }
+
     public function obtenerCuponesNoVencidos() {
         return $this->cuponData->obtenerCuponesNoVencidos();
     }

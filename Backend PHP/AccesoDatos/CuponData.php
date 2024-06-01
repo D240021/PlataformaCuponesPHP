@@ -29,6 +29,13 @@ class CuponData {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerCuponesPorEmpresa($empresa_id) {
+        $sql = "SELECT * FROM cupon WHERE empresa_id = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([$empresa_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerCuponesNoVencidos() {
         $sql = "SELECT * FROM cupon WHERE fecha_vencimiento >= CURDATE()";
         $stmt = $this->conexion->prepare($sql);

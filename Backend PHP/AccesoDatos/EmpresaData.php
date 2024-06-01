@@ -22,6 +22,13 @@ class EmpresaData {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerEmpresaPorCedulaYContrasenna($cedula, $contrasenna) {
+        $sql = "SELECT * FROM empresa WHERE cedula = ? AND contrasenna = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([$cedula, $contrasenna]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }       
+
     public function obtenerEmpresas() {
         $sql = "SELECT * FROM empresa";
         $stmt = $this->conexion->prepare($sql);
