@@ -74,10 +74,24 @@ class CuponData {
     }
 
     public function eliminarCupon($id) {
-        $sql = "DELETE FROM cupon WHERE id = ?";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$id]);
+        try {
+            $this->conexion->beginTransaction();
+            
+            $sqlPromociones = "DELETE FROM promocion WHERE cupon_id = ?";
+            $stmtPromociones = $this->conexion->prepare($sqlPromociones);
+            $stmtPromociones->execute([$id]);
+            
+            $sqlCupon = "DELETE FROM cupon WHERE id = ?";
+            $stmtCupon = $this->conexion->prepare($sqlCupon);
+            $stmtCupon->execute([$id]);
+            
+            $this->conexion->commit();
+        } catch (Exception $e) {
+            $this->conexion->rollBack();
+            throw new Exception("Error eliminando el cupón: " . $e->getMessage());
+        }
     }
+    
 }
 
 ?>

@@ -29,6 +29,13 @@ class PromocionData {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerPromocionesCuponID($cupon_id) {
+        $sql = "SELECT * FROM promocion WHERE cupon_id = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([$cupon_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function actualizarPromocion($promocion) {
         $sql = "UPDATE promocion SET cupon_id = ?, descripcion = ?, fecha_inicio = ?, fecha_vencimiento = ?, descuento = ? WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
