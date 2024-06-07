@@ -30,6 +30,10 @@ class PromocionBusiness {
         return $this->promocionData->obtenerPromociones();
     }
 
+    public function obtenerPromocionesCuponID($cupon_id) {
+        return $this->promocionData->obtenerPromocionesCuponID($cupon_id);
+    }
+
     public function actualizarPromocion($promocion) {
         if (empty($promocion->id) || !is_numeric($promocion->id)) {
             throw new Exception("ID de promoción inválido");

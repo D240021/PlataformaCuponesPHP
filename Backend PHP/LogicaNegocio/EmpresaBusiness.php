@@ -31,8 +31,16 @@ class EmpresaBusiness {
         return $this->empresaData->obtenerEmpresas();
     }
 
+    public function autenticarEmpresa($cedula, $contrasenna) {
+        if (empty($cedula) || empty($contrasenna)) {
+            throw new Exception("Cédula y contraseña son obligatorios");
+        }
+    
+        $empresa = $this->empresaData->obtenerEmpresaPorCedulaYContrasenna($cedula, $contrasenna);
+        return $empresa;
+    }    
+
     public function actualizarEmpresa($empresa) {
-        // Validaciones
         if (empty($empresa->id) || !is_numeric($empresa->id)) {
             throw new Exception("ID de empresa inválido");
         }
