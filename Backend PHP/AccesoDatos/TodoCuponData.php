@@ -12,7 +12,7 @@ class TodoCuponData {
     public function obtenerTodoCupones() {
         $sql = "SELECT 
                     cupon.id as cupon_id, cupon.codigo, cupon.nombre as cupon_nombre, cupon.precio, cupon.estado, cupon.imagen as cupon_imagen, cupon.categoria_id, cupon.fecha_inicio, cupon.fecha_vencimiento, cupon.fecha_creacion,
-                    empresa.id as empresa_id, empresa.nombre as empresa_nombre, empresa.direccion, empresa.cedula as empresa_cedula, empresa.fecha_creacion as empresa_fecha_creacion, empresa.correo as empresa_correo, empresa.telefono as empresa_telefono, empresa.imagen as empresa_imagen, empresa.isHabilitado,
+                    empresa.id as empresa_id, empresa.nombre as empresa_nombre, empresa.direccion, empresa.cedula as empresa_cedula, empresa.fecha_creacion as empresa_fecha_creacion, empresa.correo as empresa_correo, empresa.telefono as empresa_telefono, empresa.imagen as empresa_imagen, empresa.estado,
                     promocion.id as promocion_id, promocion.descripcion as promocion_descripcion, promocion.fecha_inicio as promocion_fecha_inicio, promocion.fecha_vencimiento as promocion_fecha_vencimiento, promocion.descuento as promocion_descuento,
                     categoria.id as categoria_id, categoria.nombre as categoria_nombre
                 FROM cupon 
@@ -28,7 +28,7 @@ class TodoCuponData {
     public function obtenerTodoCuponID($id) {
         $sql = "SELECT 
                     cupon.id as cupon_id, cupon.codigo, cupon.nombre as cupon_nombre, cupon.precio, cupon.estado, cupon.imagen as cupon_imagen, cupon.categoria_id, cupon.fecha_inicio, cupon.fecha_vencimiento, cupon.fecha_creacion,
-                    empresa.id as empresa_id, empresa.nombre as empresa_nombre, empresa.direccion, empresa.cedula as empresa_cedula, empresa.fecha_creacion as empresa_fecha_creacion, empresa.correo as empresa_correo, empresa.telefono as empresa_telefono, empresa.imagen as empresa_imagen, empresa.isHabilitado,
+                    empresa.id as empresa_id, empresa.nombre as empresa_nombre, empresa.direccion, empresa.cedula as empresa_cedula, empresa.fecha_creacion as empresa_fecha_creacion, empresa.correo as empresa_correo, empresa.telefono as empresa_telefono, empresa.imagen as empresa_imagen, empresa.estado,
                     promocion.id as promocion_id, promocion.descripcion as promocion_descripcion, promocion.fecha_inicio as promocion_fecha_inicio, promocion.fecha_vencimiento as promocion_fecha_vencimiento, promocion.descuento as promocion_descuento,
                     categoria.id as categoria_id, categoria.nombre as categoria_nombre
                 FROM cupon 
@@ -70,7 +70,7 @@ class TodoCuponData {
                         'correo' => $row['empresa_correo'] ?? null,
                         'telefono' => $row['empresa_telefono'] ?? null,
                         'imagen' => $row['empresa_imagen'] ?? null,
-                        'isHabilitado' => $row['isHabilitado'] ?? null
+                        'estado' => $row['estado'] ?? null
                     ],
                     'promociones' => []
                 ];
