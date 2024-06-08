@@ -1,7 +1,8 @@
 <?php
 
-// Encabezados CORS
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: *'); // Permite todas las solicitudes de origen
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); // Métodos permitidos
+header('Access-Control-Allow-Headers: Content-Type, Authorization'); // Cabeceras permitidas
 header('Content-Type: application/json');
 
 // Manejo de solicitudes OPTIONS
