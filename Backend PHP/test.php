@@ -1,28 +1,20 @@
 <?php
 
-require_once 'LogicaNegocio/TodoCuponBusiness.php';
-// require_once 'Dominio/TodoCupon.php'; // Comentado ya que no es necesario para la prueba actual
+require_once 'LogicaNegocio/UsuarioBusiness.php';
+// require_once 'Dominio/Usuario.php'; // Comentado ya que no es necesario para la prueba actual
 
-// Crear una instancia de TodoCuponBusiness
-$todoCuponBusiness = new TodoCuponBusiness();
+// Crear una instancia de UsuarioBusiness
+$usuarioBusiness = new UsuarioBusiness();
 
 try {
-    // Obtener todos los cupones
-    echo "Obteniendo todos los cupones...\n";
-    $cupones = $todoCuponBusiness->obtenerTodoCupones();
-    //echo json_encode($cupones, JSON_PRETTY_PRINT);
-
-    // Obtener un cupón específico por su ID
-    echo "Obteniendo un cupón específico por su ID...\n";
-    if (!empty($cupones)) {
-        $cupon = end($cupones);
-        $cuponId = $cupon['idCupon']; // Usar la clave correcta para obtener el ID del cupón
-        $cuponDetalles = $todoCuponBusiness->obtenerTodoCuponID($cuponId);
-        echo json_encode($cuponDetalles, JSON_PRETTY_PRINT);
-    } else {
-        echo "No se encontró ningún cupón para probar.\n";
-    }
-
+    // Probar la autenticación de un usuario
+    echo "Autenticando usuario...\n";
+    $username = 'admin'; // Reemplaza con el nombre de usuario a probar
+    $contrasena = 'admin'; // Reemplaza con la contraseña a probar
+    
+    $usuarioAutenticado = $usuarioBusiness->autenticarUsuario($username, $contrasena);
+    echo json_encode($usuarioAutenticado, JSON_PRETTY_PRINT);
+    
 } catch (Exception $e) {
     echo json_encode(["error" => $e->getMessage()], JSON_PRETTY_PRINT);
 }

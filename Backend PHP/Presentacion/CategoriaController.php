@@ -3,9 +3,10 @@
 require_once __DIR__ . '/../LogicaNegocio/CategoriaBusiness.php';
 require_once __DIR__ . '/../Dominio/Categoria.php';
 
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: *'); // Permite todas las solicitudes de origen
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); // Métodos permitidos
+header('Access-Control-Allow-Headers: Content-Type, Authorization'); // Cabeceras permitidas
 header('Content-Type: application/json');
-
 $categoriaBusiness = new CategoriaBusiness();
 
 $method = $_SERVER['REQUEST_METHOD'];
