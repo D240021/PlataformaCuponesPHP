@@ -1,20 +1,22 @@
 <?php
 
-require_once 'LogicaNegocio/UsuarioBusiness.php';
-// require_once 'Dominio/Usuario.php'; // Comentado ya que no es necesario para la prueba actual
-
-// Crear una instancia de UsuarioBusiness
-$usuarioBusiness = new UsuarioBusiness();
+require_once __DIR__ . '/LogicaNegocio/TodoCuponBusiness.php';
 
 try {
-    // Probar la autenticación de un usuario
-    echo "Autenticando usuario...\n";
-    $username = 'admin'; // Reemplaza con el nombre de usuario a probar
-    $contrasena = 'admin'; // Reemplaza con la contraseña a probar
-    
-    $usuarioAutenticado = $usuarioBusiness->autenticarUsuario($username, $contrasena);
-    echo json_encode($usuarioAutenticado, JSON_PRETTY_PRINT);
-    
+    // Crear una instancia de TodoCuponBusiness
+    $todoCuponBusiness = new TodoCuponBusiness();
+
+    // Probar la obtención de todos los cupones
+    echo "Obteniendo todos los cupones...\n";
+    $cupones = $todoCuponBusiness->obtenerTodoCupones();
+    echo json_encode($cupones, JSON_PRETTY_PRINT);
+
+    // Probar la obtención de un cupón por ID
+    echo "\nObteniendo cupón por ID...\n";
+    $idCupon = 1; // Reemplaza con el ID del cupón a probar
+    $cupon = $todoCuponBusiness->obtenerTodoCuponID($idCupon);
+    echo json_encode($cupon, JSON_PRETTY_PRINT);
+
 } catch (Exception $e) {
     echo json_encode(["error" => $e->getMessage()], JSON_PRETTY_PRINT);
 }
