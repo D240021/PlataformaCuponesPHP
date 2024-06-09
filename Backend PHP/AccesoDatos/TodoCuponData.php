@@ -18,7 +18,8 @@ class TodoCuponData {
                 FROM cupon 
                 LEFT JOIN empresa ON cupon.empresa_id = empresa.id
                 LEFT JOIN promocion ON cupon.id = promocion.cupon_id
-                LEFT JOIN categoria ON cupon.categoria_id = categoria.id";
+                LEFT JOIN categoria ON cupon.categoria_id = categoria.id
+                WHERE cupon.estado = 'Activo'" ;
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,7 +36,7 @@ class TodoCuponData {
                 LEFT JOIN empresa ON cupon.empresa_id = empresa.id
                 LEFT JOIN promocion ON cupon.id = promocion.cupon_id
                 LEFT JOIN categoria ON cupon.categoria_id = categoria.id
-                WHERE cupon.id = ?";
+                WHERE cupon.id = ? AND cupon.estado = 'Activo'";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$id]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
