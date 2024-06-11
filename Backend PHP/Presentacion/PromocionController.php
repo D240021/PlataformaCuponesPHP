@@ -17,124 +17,78 @@ $promocionBusiness = new PromocionBusiness();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method == 'GET') {
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        try {
+try {
+    if ($method == 'GET') {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
             $promocion = $promocionBusiness->obtenerPromocion($id);
-            header("HTTP/1.1 200 OK");
             echo json_encode($promocion);
-        } catch (Exception $e) {
-            header("HTTP/1.1 400 Bad Request");
-            echo json_encode(["error" => $e->getMessage()]);
-        }
-    } elseif (isset($_GET['cupon_id'])) {
-        $cupon_id = $_GET['cupon_id'];
-        try {
+        } elseif (isset($_GET['cupon_id'])) {
+            $cupon_id = $_GET['cupon_id'];
             $promociones = $promocionBusiness->obtenerPromocionesCuponID($cupon_id);
-            header("HTTP/1.1 200 OK");
             echo json_encode($promociones);
-        } catch (Exception $e) {
-            header("HTTP/1.1 400 Bad Request");
-            echo json_encode(["error" => $e->getMessage()]);
-        }
-    } else {
-        try {
+        } else {
             $promociones = $promocionBusiness->obtenerPromociones();
-            header("HTTP/1.1 200 OK");
             echo json_encode($promociones);
-        } catch (Exception $e) {
-            header("HTTP/1.1 400 Bad Request");
-            echo json_encode(["error" => $e->getMessage()]);
         }
-    }
-    exit();
-}
-
-if ($method == 'POST') {
-    $input = json_decode(file_get_contents('php://input'), true);
-
-    $response = [
-        'status' => 'error',
-        'message' => '',
-        'data' => null
-    ];
-
-    if (isset($input['METHOD'])) {
-        switch ($input['METHOD']) {
-            case 'POST':
-                unset($input['METHOD']);
-                if (!isset($input['cupon_id'], $input['descripcion'], $input['fecha_inicio'], $input['fecha_vencimiento'], $input['descuento'])) {
-                    header("HTTP/1.1 400 Bad Request");
-                    $response['message'] = 'Datos incompletos para crear la promoción';
-                    $response['data'] = $input;
-                    echo json_encode($response);
-                    exit();
-                }
-                $promocion = new Promocion(
-                    null,
-                    $input['cupon_id'],
-                    $input['descripcion'],
-                    $input['fecha_inicio'],
-                    $input['fecha_vencimiento'],
-                    $input['descuento']
-                );
-
-                try {
+    } elseif ($method == 'POST') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        if (isset($input['METHOD'])) {
+            switch ($input['METHOD']) {
+                case 'POST':
+                    unset($input['METHOD']);
+                    if (!isset($input['cupon_id'], $input['descripcion'], $input['fecha_inicio'], $input['fecha_vencimiento'], $input['descuento'], $input['estado'])) {
+                        throw new Exception('Datos incompletos para crear la promoción');
+                    }
+                    $promocion = new Promocion(
+                        null,
+                        $input['cupon_id'],
+                        $input['descripcion'],
+                        $input['fecha_inicio'],
+                        $input['fecha_vencimiento'],
+                        $input['descuento'],
+                        $input['estado']
+                    );
                     $promocionBusiness->crearPromocion($promocion);
-                    header("HTTP/1.1 201 Created");
-                    $response['status'] = 'success';
-                    $response['message'] = 'Promoción creada exitosamente';
-                    echo json_encode($response);
-                } catch (Exception $e) {
-                    header("HTTP/1.1 400 Bad Request");
-                    $response['message'] = 'Error creando promoción';
-                    $response['data'] = $e->getMessage();
-                    echo json_encode($response);
-                }
-                break;
-
-            case 'DELETE':
-                unset($input['METHOD']);
-                if (!isset($input['id'])) {
-                    header("HTTP/1.1 400 Bad Request");
-                    $response['message'] = 'ID de promoción no especificado';
-                    $response['data'] = $input;
-                    echo json_encode($response);
-                    exit();
-                }
-                $id = $input['id'];
-
-                try {
+                    echo json_encode(['status' => 'success', 'message' => 'Promoción creada exitosamente']);
+                    break;
+                case 'PUT':
+                    unset($input['METHOD']);
+                    if (!isset($input['id'], $input['cupon_id'], $input['descripcion'], $input['fecha_inicio'], $input['fecha_vencimiento'], $input['descuento'], $input['estado'])) {
+                        throw new Exception('Datos incompletos para actualizar la promoción');
+                    }
+                    $promocion = new Promocion(
+                        $input['id'],
+                        $input['cupon_id'],
+                        $input['descripcion'],
+                        $input['fecha_inicio'],
+                        $input['fecha_vencimiento'],
+                        $input['descuento'],
+                        $input['estado']
+                    );
+                    $promocionBusiness->actualizarPromocion($promocion);
+                    echo json_encode(['status' => 'success', 'message' => 'Promoción actualizada exitosamente']);
+                    break;
+                case 'DELETE':
+                    unset($input['METHOD']);
+                    if (!isset($input['id'])) {
+                        throw new Exception('ID de promoción no especificado');
+                    }
+                    $id = $input['id'];
                     $promocionBusiness->eliminarPromocion($id);
-                    header("HTTP/1.1 200 OK");
-                    $response['status'] = 'success';
-                    $response['message'] = 'Promoción eliminada exitosamente';
-                    echo json_encode($response);
-                } catch (Exception $e) {
-                    header("HTTP/1.1 400 Bad Request");
-                    $response['message'] = 'Error eliminando promoción';
-                    $response['data'] = $e->getMessage();
-                    echo json_encode($response);
-                }
-                break;
-
-            default:
-                header("HTTP/1.1 400 Bad Request");
-                $response['message'] = 'Método no soportado';
-                $response['data'] = $input;
-                echo json_encode($response);
-                break;
+                    echo json_encode(['status' => 'success', 'message' => 'Promoción eliminada exitosamente']);
+                    break;
+                default:
+                    throw new Exception('Método no soportado');
+            }
+        } else {
+            throw new Exception('Método no especificado');
         }
     } else {
-        header("HTTP/1.1 400 Bad Request");
-        $response['message'] = 'Método no especificado';
-        echo json_encode($response);
+        throw new Exception('Método no permitido');
     }
-    exit();
+} catch (Exception $e) {
+    http_response_code(400);
+    echo json_encode(['error' => $e->getMessage()]);
 }
-
-
-header("HTTP/1.1 405 Method Not Allowed");
-echo json_encode(["error" => "Método no permitido"]);
 ?>

@@ -23,9 +23,10 @@ class EmpresaBusiness {
         if (empty($id) || !is_numeric($id)) {
             throw new Exception("ID de empresa inválido");
         }
-
+    
         return $this->empresaData->obtenerEmpresaID($id);
     }
+    
 
     public function obtenerEmpresas() {
         return $this->empresaData->obtenerEmpresas();
