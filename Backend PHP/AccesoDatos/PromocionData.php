@@ -10,9 +10,9 @@ class PromocionData {
     }
 
     public function crearPromocion($promocion) {
-        $sql = "INSERT INTO promocion (cupon_id, descripcion, fecha_inicio, fecha_vencimiento, descuento) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO promocion (cupon_id, descripcion, fecha_inicio, fecha_vencimiento, descuento, estado) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$promocion->cupon_id, $promocion->descripcion, $promocion->fecha_inicio, $promocion->fecha_vencimiento, $promocion->descuento]);
+        $stmt->execute([$promocion->cupon_id, $promocion->descripcion, $promocion->fecha_inicio, $promocion->fecha_vencimiento, $promocion->descuento, $promocion->estado]);
     }
 
     public function obtenerPromocionID($id) {
@@ -37,9 +37,9 @@ class PromocionData {
     }
 
     public function actualizarPromocion($promocion) {
-        $sql = "UPDATE promocion SET cupon_id = ?, descripcion = ?, fecha_inicio = ?, fecha_vencimiento = ?, descuento = ? WHERE id = ?";
+        $sql = "UPDATE promocion SET cupon_id = ?, descripcion = ?, fecha_inicio = ?, fecha_vencimiento = ?, descuento = ?, estado = ? WHERE id = ?";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$promocion->cupon_id, $promocion->descripcion, $promocion->fecha_inicio, $promocion->fecha_vencimiento, $promocion->descuento, $promocion->id]);
+        $stmt->execute([$promocion->cupon_id, $promocion->descripcion, $promocion->fecha_inicio, $promocion->fecha_vencimiento, $promocion->descuento, $promocion->estado, $promocion->id]);
     }
 
     public function eliminarPromocion($id) {
